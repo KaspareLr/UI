@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wenkoo AI - 登录</title>
+    <style>
+/* 本地图标库引用 - 修改后的路径 */
+        @font-face {
+          font-family: 'font_family';  /* Project id 4050354 */
+          src: url('./font_4050354_87au0v8jwaq/iconfont.woff2') format('woff2'),
+               url('./font_4050354_87au0v8jwaq/iconfont.woff') format('woff'),
+               url('./font_4050354_87au0v8jwaq/iconfont.ttf') format('truetype');
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #E2E6EE;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* 顶部导航栏 */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .header-logo {
+            height: 30px;
+        }
+
+        .header-logo img {
+            max-height: 100%;
+            width: auto;
+        }
+
+        .apply-btn {
+            height: 40px;
+            padding: 0 14px 0 10px; /* 修改padding为左10px右14px */
+            background-color: white;
+            color: #303133;
+            font-weight: bold;
+            border-radius: 12px;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .apply-btn:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 缩小阴影并变淡 */
+        }
+
+        /* 新增：图标样式 */
+        .apply-btn-icon {
+            font-family: 'font_family';
+            font-size: 24px;  /* 图标大小 */
+            margin-right: 4px;  /* 修改图标右边距为4px */
+        }
+
+        .qrcode-float {
+            position: absolute;
+            bottom: -10px;
+            right: 0;
+            transform: translateY(100%);
+            padding: 16px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+            display: none;
+            z-index: 101;
+            white-space: nowrap;
+        }
+
+        .qrcode-img {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qrcode-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .qrcode-text {
+            margin-top: 10px;
+            font-size: 12px;
+            line-height: 16px;
+            color: #303133;
+            text-align: center;
+            font-weight: normal;
+        }
+
+        .qrcode-text span {
+            display: block;
+        }
+
+        .apply-btn:hover .qrcode-float {
+            display: block;
+        }
+
+        /* 双圆形背景 */
+        .heart-container {
+            position: relative;
+            width: 640px; /* 修改圆形容器宽度 */
+            height: 640px; /* 修改圆形容器高度 */
+        }
+
+        .heart-1, .heart-2 {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            filter: blur(50px);
+        }
+
+        .heart-1 {
+            background-color: rgba(7, 28, 224, 0.1);
+            animation: heartbeat 4s ease-in-out infinite;
+        }
+
+        .heart-2 {
+            background-color: rgba(7, 224, 169, 0.1);
+            animation: heartbeat 4s ease-in-out 0.75s infinite;
+            z-index: -1;
+        }
+
+        /* 登录面板 */
+        .center-panel {
+            position: absolute;
+            width: 340px;
+            height: 520px;
+            background-color: white;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            z-index: 10;
+            transition: transform 0.2s ease-out;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo-area {
+            margin-top: 40px;
+            height: 56px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo-area img {
+            max-height: 100%;
+            width: auto;
+        }
+
+        .login-title {
+            font-size: 16px;
+            line-height: 28px;
+            color: #000;
+            margin-top: 16px;
+        }
+
+        .input-container {
+            width: 100%;
+            margin-top: 16px;
+        }
+
+        .phone-input, .password-input {
+            width: 100%;
+            height: 40px;
+            border: 0.5px solid #CCCCCC;
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 13px;
+            line-height: 24px;
+            outline: none;
+            margin-bottom: 8px;
+        }
+
+        .password-input::placeholder, .phone-input::placeholder {
+            color: #999;
+        }
+
+        .login-btn {
+            width: 100%;
+            height: 48px;
+            background-color: #1765FF;
+            color: white;
+            font-size: 14px;
+            border-radius: 24px;
+            border: none;
+            margin-top: 16px; /* 修改立即登录按钮顶边距为16px */
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+        }
+
+        .login-btn:hover {
+            box-shadow: 0 3px 8px rgba(23, 101, 255, 0.15);
+            background-color: #1765FF;
+        }
+
+        .wechat-btn {
+            width: 100%;
+            height: 48px;
+            background-color: white;
+            color: #303133;
+            font-size: 14px;
+            border-radius: 24px;
+            border: 1px solid #303133;
+            margin-top: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .wechat-btn:hover {
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+            background-color: white;
+        }
+
+        .wechat-icon {
+            margin-right: 4px;
+            font-size: 24px;
+            width: 24px;
+            height: 24px;
+            color: #303133;
+            font-family: 'font_family';
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wechat-text {
+            font-size: 13px;
+            line-height: 24px;
+        }
+
+        .bottom-links {
+            width: 100%;
+            margin-top: auto;
+            margin-bottom: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .bottom-links a {
+            color: #1765FF;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 13px;
+            line-height: 20px;
+        }
+
+        .bottom-links span {
+            color: #909399;
+            font-size: 13px;
+            line-height: 20px;
+        }
+
+        /* 新增footer样式 */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 13px;
+            line-height: 20px;
+        }
+
+        .footer span {
+            color: #C0C4CC;
+        }
+
+        .footer a {
+            color: #303133;
+            font-weight: bold;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+
+        /* 纯文字超链hover效果 */
+        a:not(.apply-btn):not(.login-btn):not(.wechat-btn):hover {
+            text-decoration: underline;
+        }
+
+        /* 心跳动画 - 缩放范围0.8到1 */
+        @keyframes heartbeat {
+            0% {
+                transform: scale(0.8);
+                opacity: 0.9;
+            }
+            50% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(0.8);
+                opacity: 0.9;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <header class="header">
+        <div class="header-logo">
+            <img src="wenkooAI.png" alt="Wenkoo AI">
+        </div>
+        <button class="apply-btn">
+            <span class="apply-btn-icon">&#xe690;</span>
+            申请使用
+            <div class="qrcode-float">
+                <div class="qrcode-img">
+                    <img src="qrcode.jpg" alt="企业微信二维码">
+                </div>
+                <div class="qrcode-text">
+                    <span>扫描企业微信二维码</span>
+                    <span>获得邀请码</span>
+                </div>
+            </div>
+        </button>
+    </header>
+
+    <!-- 双圆形背景 -->
+    <div class="heart-container">
+        <div class="heart-1"></div>
+        <div class="heart-2"></div>
+    </div>
+
+    <!-- 登录面板 -->
+    <div class="center-panel" id="centerPanel">
+        <div class="logo-area">
+            <img src="wenkooblack.jpg" alt="Wenkoo Logo">
+        </div>
+        <div class="login-title">登录</div>
+        <div class="input-container">
+            <input type="tel" class="phone-input" placeholder="手机号">
+            <input type="password" class="password-input" placeholder="密码">
+        </div>
+        <button class="login-btn">立即登录</button>
+        <button class="wechat-btn">
+            <span class="wechat-icon">&#xe68f;</span>
+            <span class="wechat-text">微信登录</span>
+        </button>
+        <div class="bottom-links">
+            <a href="#">忘记密码？</a>
+            <span>还没有账号?<a href="#">注册账号</a></span>
+        </div>
+    </div>
+
+    <!-- 新增footer -->
+    <footer class="footer">
+        <span>京ICP备19011905号-5</span>
+        <a href="#">技术与版权支持</a>
+    </footer>
+
+    <script>
+        const centerPanel = document.getElementById('centerPanel');
+        const maxRotation = 8;
+        const maxDistance = 300;
+
+        document.addEventListener('mousemove', (e) => {
+            const rect = centerPanel.getBoundingClientRect();
+            const panelCenterX = rect.left + rect.width / 2;
+            const panelCenterY = rect.top + rect.height / 2;
+            
+            const distanceX = e.clientX - panelCenterX;
+            const distanceY = e.clientY - panelCenterY;
+            
+            let rotateY = 0;
+            let rotateX = 0;
+            
+            if (Math.abs(distanceX) > 0) {
+                const normalizedX = Math.min(Math.abs(distanceX) / maxDistance, 1);
+                rotateY = Math.sign(distanceX) * normalizedX * maxRotation;
+            }
+            
+            if (Math.abs(distanceY) > 0) {
+                const normalizedY = Math.min(Math.abs(distanceY) / maxDistance, 1);
+                rotateX = -Math.sign(distanceY) * normalizedY * maxRotation;
+            }
+            
+            centerPanel.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+        
+        document.addEventListener('mouseleave', () => {
+            centerPanel.style.transform = 'rotateX(0deg) rotateY(0deg)';
+        });
+    </script>
+</body>
+</html>
