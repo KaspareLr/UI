@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wenkoo AI - 登录</title>
     <style>
-/* 调整字体文件路径为与HTML平级 */
+        /* 调整字体文件路径为与HTML平级 */
         @font-face {
           font-family: 'font_family';  /* Project id 4050354 */
-          src: url('./iconfont.woff2') format('woff2'),
-               url('./iconfont.woff') format('woff'),
-               url('./iconfont.ttf') format('truetype');
+          src: url('https://raw.githubusercontent.com/KaspareLr/UI/refs/heads/main/iconfont.woff2') format('woff2'),
+               url('https://raw.githubusercontent.com/KaspareLr/UI/refs/heads/main/iconfont.woff') format('woff'),
+               url('https://raw.githubusercontent.com/KaspareLr/UI/refs/heads/main/iconfont.ttf') format('truetype');
         }
 
         * {
@@ -20,41 +20,14 @@
         }
 
         body {
+            /* 修改背景色为渐变 */
+            background-image: linear-gradient(to bottom, #F8F5FF, #F5F9FF);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             font-family: sans-serif;
             overflow-x: hidden;
-            background: linear-gradient(to bottom, #F8F5FF, #F5F9FF);
-        }
-
-        /* 双圆形背景 */
-        .heart-container {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-        }
-
-        .heart-1, .heart-2 {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            filter: blur(80px);
-        }
-
-        .heart-1 {
-            background-color: rgba(7, 28, 224, 0.1);
-            top: -30%;
-            left: -20%;
-        }
-
-        .heart-2 {
-            background-color: rgba(7, 224, 169, 0.1);
-            bottom: -30%;
-            right: -20%;
         }
 
         /* 顶部导航栏 */
@@ -98,14 +71,15 @@
         }
 
         .apply-btn:hover {
-            background-color: rgba(255, 255, 255, 0.8);
+            background-color: rgba(255, 255, 255, 0.8); /* 白色背景减淡透明度 */
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .apply-btn:active {
-            transform: scale(0.98);
+            transform: scale(0.98); /* 点击时缩小到0.98 */
         }
 
+        /* 新增：图标样式 */
         .apply-btn-icon {
             font-family: 'font_family';
             font-size: 24px;
@@ -158,9 +132,35 @@
             display: block;
         }
 
+        /* 双圆形背景 */
+        .heart-container {
+            position: relative;
+            width: 640px;
+            height: 640px;
+        }
+
+        .heart-1, .heart-2 {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            filter: blur(50px);
+        }
+
+        .heart-1 {
+            background-color: rgba(7, 28, 224, 0.2);
+            animation: heartbeat 3s ease-in-out infinite;
+        }
+
+        .heart-2 {
+            background-color: rgba(7, 224, 169, 0.2);
+            animation: heartbeat 3s ease-in-out 1.5s infinite;
+            z-index: -1;
+        }
+
         /* 登录面板 */
         .center-panel {
-            position: relative;
+            position: absolute;
             width: 340px;
             height: 548px; /* 调整面板高度为548px */
             background-color: white;
@@ -176,24 +176,28 @@
             padding: 0 20px;
         }
 
+        /* 调整后的 logo-area 样式 */
         .logo-area {
-            margin-top: 40px;
-            height: 56px;
+            margin-top: 32px;
+            height: 72px;
+            width: 72px;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
         .logo-area img {
-            max-height: 100%;
+            max-height: 72px;
             width: auto;
         }
 
+        /* 调整后的 login-title 样式 */
         .login-title {
             font-size: 16px;
             line-height: 28px;
             color: #000;
-            margin-top: 16px;
+            margin-top: 8px;
+            font-weight: bold;
         }
 
         .input-container {
@@ -220,6 +224,7 @@
             color: #999;
         }
 
+        /* 调整输入框与按钮之间的间距为24px */
         .login-btn {
             width: 100%;
             height: 48px;
@@ -228,17 +233,17 @@
             font-size: 14px;
             border-radius: 24px;
             border: none;
-            margin-top: 16px;
+            margin-top: 24px; /* 调整间距为24px */
             cursor: pointer;
             transition: all 0.2s;
         }
 
         .login-btn:hover {
-            background-color: rgba(23, 101, 255, 0.8);
+            background-color: rgba(23, 101, 255, 0.8); /* 非白色背景减淡透明度 */
         }
 
         .login-btn:active {
-            transform: scale(0.98);
+            transform: scale(0.98); /* 点击时缩小到0.98 */
         }
 
         .wechat-btn {
@@ -258,11 +263,11 @@
         }
 
         .wechat-btn:hover {
-            background-color: rgba(255, 255, 255, 0.8);
+            background-color: rgba(255, 255, 255, 0.8); /* 白色背景减淡透明度 */
         }
 
         .wechat-btn:active {
-            transform: scale(0.98);
+            transform: scale(0.98); /* 点击时缩小到0.98 */
         }
 
         .wechat-icon {
@@ -291,8 +296,9 @@
             gap: 4px;
         }
 
+        /* 修改超链默认颜色 */
         .bottom-links a {
-            color: #1765FF;
+            color: #303133;
             font-weight: bold;
             text-decoration: none;
             font-size: 13px;
@@ -305,6 +311,7 @@
             line-height: 20px;
         }
 
+        /* 新增footer样式 */
         .footer {
             position: fixed;
             bottom: 0;
@@ -316,13 +323,9 @@
             align-items: center;
             font-size: 13px;
             line-height: 20px;
-            z-index: 20;
         }
 
-        .footer span {
-            color: #C0C4CC;
-        }
-
+        /* 修改超链默认颜色 */
         .footer a {
             color: #303133;
             font-weight: bold;
@@ -330,35 +333,45 @@
             margin: 0 8px;
         }
 
+        .footer span {
+            color: #C0C4CC;
+        }
+
+        /* 纯文字超链hover效果，不改变颜色只增加下划线 */
         a:not(.apply-btn):not(.login-btn):not(.wechat-btn):hover {
+            color: #303133; /* 保持颜色不变 */
             text-decoration: underline;
         }
 
-        .center-panel {
-            transition: transform 0.3s ease;
-        }
-
-        .center-panel:hover {
-            transform: translateY(-5px);
+        /* 心跳动画 - 缩放范围0.8到1 */
+        @keyframes heartbeat {
+            0% {
+                transform: scale(0.8);
+                opacity: 0.9;
+            }
+            50% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(0.8);
+                opacity: 0.9;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="heart-container">
-        <div class="heart-1"></div>
-        <div class="heart-2"></div>
-    </div>
-
+    <!-- 顶部导航栏 -->
     <header class="header">
         <div class="header-logo">
-            <img src="wenkooAI.png" alt="Wenkoo AI">
+            <img src="https://raw.githubusercontent.com/KaspareLr/UI/refs/heads/main/wenkooAI.png" alt="Wenkoo AI">
         </div>
         <button class="apply-btn">
             <span class="apply-btn-icon">&#xe690;</span>
             申请使用
             <div class="qrcode-float">
                 <div class="qrcode-img">
-                    <img src="qrcode.jpg" alt="企业微信二维码">
+                    <img src="https://raw.githubusercontent.com/KaspareLr/UI/refs/heads/main/qrcode.jpg" alt="企业微信二维码">
                 </div>
                 <div class="qrcode-text">
                     <span>扫描企业微信二维码</span>
@@ -368,9 +381,16 @@
         </button>
     </header>
 
+    <!-- 双圆形背景 -->
+    <div class="heart-container">
+        <div class="heart-1"></div>
+        <div class="heart-2"></div>
+    </div>
+
+    <!-- 登录面板 -->
     <div class="center-panel" id="centerPanel">
         <div class="logo-area">
-            <img src="wenkooblack.jpg" alt="Wenkoo Logo">
+            <img src="https://raw.githubusercontent.com/KaspareLr/UI/refs/heads/main/wenkoologin.jpg" alt="Wenkoo Logo">
         </div>
         <div class="login-title">登录</div>
         <div class="input-container">
@@ -388,6 +408,7 @@
         </div>
     </div>
 
+    <!-- 新增footer -->
     <footer class="footer">
         <span>京ICP备19011905号-5</span>
         <a href="#">技术与版权支持</a>
